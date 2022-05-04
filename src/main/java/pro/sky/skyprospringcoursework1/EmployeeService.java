@@ -1,10 +1,11 @@
 package pro.sky.skyprospringcoursework1;
 
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Service
 public class EmployeeService {
-    private Employee[] employees;
+    private Employee[] employees = new Employee[5];
 
     public Employee addEmployee(String name, String surname) {
         if (findEmployee(name, surname) == null) {
@@ -17,7 +18,7 @@ public class EmployeeService {
                 }
             }
             System.out.println("Нет места для добавления. ");
-            throw new RuntimeException("500 Internal Server Error");
+            throw new ArrayIsFullException();
         } else {
             System.out.println(name + " " + surname + " уже есть в массиве. ");
             throw new RuntimeException("400 Bad Request");
@@ -34,7 +35,7 @@ public class EmployeeService {
             }
         }
         System.out.println(name + " " + surname + " не найден. ");
-        throw new RuntimeException("404 Not Found");
+        throw new EmployeeNotFoundException();
     }
 
     public Employee findEmployee(String name, String surname) {
@@ -46,6 +47,6 @@ public class EmployeeService {
             }
         }
         System.out.println(name + " " + surname + " не найден. ");
-        throw new RuntimeException("404 Not Found");
+        throw new EmployeeNotFoundException();
     }
 }
