@@ -10,16 +10,20 @@ public class Employee {
     }
 
     public String getName () {
-        return this.name + " " + this.surname;
+        return this.name;
+    }
+
+    public String getSurname () {
+        return this.surname;
     }
 
     @Override
     public String toString () {
-        return this.getName();
+        return this.getName() + " " + this.getSurname();
     }
 
-    public boolean equals(Employee emp) {
-        if (this.name == emp.name && this.surname == emp.surname) {
+    public boolean equals (Employee temp) {
+        if (this.name.equals(temp.name) && this.surname.equals(temp.surname)) {
             return true;
         } else {
             return false;
