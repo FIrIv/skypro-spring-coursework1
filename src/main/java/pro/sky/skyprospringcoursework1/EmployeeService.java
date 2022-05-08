@@ -1,11 +1,13 @@
 package pro.sky.skyprospringcoursework1;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class EmployeeService {
-    private Employee[] employees = new Employee[5];
+    private List <Employee> employeeList = new ArrayList <> ();
 
     public Employee addEmployee(String name, String surname) {
         try {
@@ -14,24 +16,26 @@ public class EmployeeService {
             throw new BadRequestException();
         } catch (EmployeeNotFoundException e) {
             Employee temp = new Employee(name, surname);
-            for (int i = 0; i < employees.length; i++) {
-                if (employees[i] == null) {
-                    employees[i] = temp;
-                    System.out.println(name + " " + surname + " добавлен в массив под номером " + i);
+            for (int i = 0; i < employeeList.size(); i++) {
+                if (employeeList.get(i) == null) {
+                    employeeList.set(i,temp);
+                    System.out.println(name + " " + surname + " добавлен на пустое место в массив под номером " + i);
                     return temp;
                 }
             }
-            System.out.println("Нет места для добавления. ");
-            throw new ArrayIsFullException();
+            // если в массиве не нашлось пустого места, добавляем в конец
+            System.out.println(name + " " + surname + " добавлен в конец массива");
+            employeeList.add(temp);
+            return temp;
         }
     }
 
     public Employee removeEmployee(String name, String surname) {
         Employee temp = new Employee(name, surname);
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) continue;
-            if (employees[i].equals(temp)) {
-                employees[i] = null;
+        for (int i = 0; i < employeeList.size(); i++) {
+            if (employeeList.get(i) == null) continue;
+            if (employeeList.get(i).equals(temp)) {
+                employeeList.set(i, null);
                 System.out.println(name + " " + surname + " исключен из массива. ");
                 return temp;
             }
@@ -42,14 +46,19 @@ public class EmployeeService {
 
     public Employee findEmployee(String name, String surname) {
         Employee temp = new Employee(name, surname);
-        for (int i = 0; i < employees.length; i++) {
-            if (employees[i] == null) continue;
-            if (employees[i].equals(temp)) {
+        for (int i = 0; i < employeeList.size(); i++) {
+            if (employeeList.get(i) == null) continue;
+            if (employeeList.get(i).equals(temp)) {
                 System.out.println(name + " " + surname + " найден в массиве под номером " + i);
-                return employees[i];
+                return employeeList.get(i);
             }
         }
         System.out.println(name + " " + surname + " не найден. ");
         throw new EmployeeNotFoundException();
+    }
+
+    public List <Employee> findAllEmployees() {
+        if (employeeList.isEmpty()) return null;
+        else return employeeList;
     }
 }
