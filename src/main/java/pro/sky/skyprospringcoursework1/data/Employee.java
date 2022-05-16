@@ -1,4 +1,6 @@
-package pro.sky.skyprospringcoursework1;
+package pro.sky.skyprospringcoursework1.data;
+
+import java.util.Objects;
 
 public class Employee {
     private String name;
@@ -22,11 +24,16 @@ public class Employee {
         return this.getName() + " " + this.getSurname();
     }
 
-    public boolean equals (Employee temp) {
-        if (this.name.equals(temp.name) && this.surname.equals(temp.surname)) {
-            return true;
-        } else {
-            return false;
-        }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Employee employee = (Employee) o;
+        return name.equals(employee.name) && surname.equals(employee.surname);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, surname);
     }
 }
