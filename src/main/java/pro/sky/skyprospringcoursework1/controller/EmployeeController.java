@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/employee")
+@RequestMapping ("/employee")
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -20,8 +20,9 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public Employee add (@RequestParam("firstName") String name, @RequestParam("lastName")  String surname) {
-        return employeeService.addEmployee(name, surname);
+    public Employee add (@RequestParam("firstName") String name, @RequestParam("lastName")  String surname,
+                         @RequestParam("department") Integer department, @RequestParam("salary")  Integer salary) {
+        return employeeService.addEmployee(name, surname, department, salary);
     }
 
     @GetMapping("/remove")
@@ -29,13 +30,28 @@ public class EmployeeController {
         return employeeService.removeEmployee(name, surname);
     }
 
-    @GetMapping("/findkey")
-    public String findkey (@RequestParam("firstName") String name, @RequestParam("lastName")  String surname) {
+    @GetMapping("/remove-by-key")
+    public Employee removeByKey (@RequestParam("key") String key) {
+        return employeeService.removeEmployeeByKey(key);
+    }
+
+    @GetMapping("/find-key")
+    public String findKey (@RequestParam("firstName") String name, @RequestParam("lastName")  String surname) {
         return employeeService.findEmployeeKey(name, surname);
     }
 
     @GetMapping("/printall")
     public Map<String, Employee> printAll () {
         return employeeService.printAllEmployees();
+    }
+
+    @GetMapping("/edit-dep-by-key")
+    public Employee editEmployeeDepartmentByKey (@RequestParam("key") String key, @RequestParam("dep") Integer dep) {
+        return employeeService.editEmployeeDepartmentByKey(key, dep);
+    }
+
+    @GetMapping("/edit-salary-by-key")
+    public Employee editEmployeeSalaryByKey (@RequestParam("key") String key, @RequestParam("salary") Integer salary) {
+        return employeeService.editEmployeeSalaryByKey(key, salary);
     }
 }
