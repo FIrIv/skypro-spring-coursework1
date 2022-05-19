@@ -80,7 +80,9 @@ public class EmployeeService {
         Employee temp = new Employee(name, surname);
         if (employeeMap.containsValue(temp)) {
             for (Map.Entry <String,Employee> emp : employeeMap.entrySet()) {
-                if (emp == null) continue;
+                if (emp == null) {
+                    continue;
+                }
                 if (emp.getValue().equals(temp)) {
                     System.out.println(name + " " + surname + " найден в мапе. ");
                     return emp.getKey();
@@ -94,8 +96,12 @@ public class EmployeeService {
     }
 
     public Map<String, Employee> printAllEmployees() {
-        if (employeeMap.isEmpty()) return null;
-        else return employeeMap;
+        if (employeeMap.isEmpty()) {
+            return null;
+        }
+        else {
+            return employeeMap;
+        }
     }
 
     public Employee editEmployeeDepartmentByKey (String key, int newDep) {
@@ -113,17 +119,14 @@ public class EmployeeService {
         return employeeMap.get(key);
     }
 
-    public Map<Integer,List<Employee>> printAllEmployeesByDepartments () {
-        return employeeMap.values()
-                .stream()
-                .collect(Collectors.groupingBy(e -> e.getDepartment()));
+    public Employee editEmployeeSalaryByKey (String key, int newSalary) {
+        if (employeeMap.containsKey(key)) {
+            Employee temp = employeeMap.get(key);
+            employeeMap.get(key).setSalary(newSalary);
+            System.out.println("Зарплата сотрудника изменена с " + temp.getSalary() + " на " + newSalary + " руб.");
+        } else {
+            System.out.println("Сотрудник не найден! ");
+        }
+        return employeeMap.get(key);
     }
-
-    public List <Employee> printEmployeesByDep (int dep) {
-        return employeeMap.values()
-                .stream()
-                .filter(e -> e.getDepartment() == dep)
-                .collect(Collectors.toList());
-    }
-
 }

@@ -2,29 +2,33 @@ package pro.sky.skyprospringcoursework1.service;
 
 import org.springframework.stereotype.Service;
 import pro.sky.skyprospringcoursework1.data.Employee;
+import pro.sky.skyprospringcoursework1.exception.EmployeeNotFoundException;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
-public class EmployeeSalaryService {
+public class DepartmentService {
 
     private final EmployeeService employeeService;
 
-    public EmployeeSalaryService(EmployeeService employeeService) {
+    public DepartmentService(EmployeeService employeeService) {
         this.employeeService = employeeService;
     }
 
-    public Employee editEmployeeSalaryByKey (String key, int newSalary) {
-        if (employeeService.getEmployeeMap().containsKey(key)) {
-            Employee temp = employeeService.getEmployeeMap().get(key);
-            employeeService.getEmployeeMap().get(key).setSalary(newSalary);
-            System.out.println("Зарплата сотрудника изменена с " + temp.getSalary() + " на " + newSalary + " руб.");
-        } else {
-            System.out.println("Сотрудник не найден! ");
-        }
-        return employeeService.getEmployeeMap().get(key);
+    public Map<Integer,List<Employee>> printAllEmployeesByDepartments () {
+        return employeeService.getEmployeeMap().values()
+                .stream()
+                .collect(Collectors.groupingBy(e -> e.getDepartment()));
+    }
+
+    public List <Employee> printEmployeesByDep (int dep) {
+        return employeeService.getEmployeeMap().values()
+                .stream()
+                .filter(e -> e.getDepartment() == dep)
+                .collect(Collectors.toList());
     }
 
     public int countSalaries () {
@@ -43,27 +47,31 @@ public class EmployeeSalaryService {
     public Employee findMinSalaryEmployee () {
         return employeeService.getEmployeeMap().values()
                 .stream()
-                .min(Comparator.comparingInt(employee -> employee.getSalary())).get();
+                .min(Comparator.comparingInt(employee -> employee.getSalary()))
+                .orElseThrow(EmployeeNotFoundException::new);
     }
 
     public Employee findMinSalaryEmployeeByDep (int dep) {
         return employeeService.getEmployeeMap().values()
                 .stream()
                 .filter(e -> e.getDepartment() == dep)
-                .min(Comparator.comparingInt(employee -> employee.getSalary())).get();
+                .min(Comparator.comparingInt(employee -> employee.getSalary()))
+                .orElseThrow(EmployeeNotFoundException::new);
     }
 
     public Employee findMaxSalaryEmployee () {
         return employeeService.getEmployeeMap().values()
                 .stream()
-                .max(Comparator.comparingInt(employee -> employee.getSalary())).get();
+                .max(Comparator.comparingInt(employee -> employee.getSalary()))
+                .orElseThrow(EmployeeNotFoundException::new);
     }
 
     public Employee findMaxSalaryEmployeeByDep (int dep) {
         return employeeService.getEmployeeMap().values()
                 .stream()
                 .filter(e -> e.getDepartment() == dep)
-                .max(Comparator.comparingInt(employee -> employee.getSalary())).get();
+                .max(Comparator.comparingInt(employee -> employee.getSalary()))
+                .orElseThrow(EmployeeNotFoundException::new);
     }
 
     public long countEmployees () {
@@ -95,9 +103,7 @@ public class EmployeeSalaryService {
     public List<Employee> indexSalary (float index) {
         return employeeService.getEmployeeMap().values()
                 .stream()
-                .map(e ->
-                {e.setSalary((int) ((float)e.getSalary()*(1.0+index)));
-                    return e;})
+                .peek(e -> e.setSalary((int) ((float)e.getSalary()*(1.0+index))))
                 .collect(Collectors.toList());
     }
 
@@ -105,9 +111,7 @@ public class EmployeeSalaryService {
         return employeeService.getEmployeeMap().values()
                 .stream()
                 .filter(e -> e.getDepartment() == dep)
-                .map(e ->
-                        {e.setSalary((int) ((float)e.getSalary()*(1.0+index)));
-                            return e;})
+                .peek(e -> e.setSalary((int) ((float)e.getSalary()*(1.0+index))))
                 .collect(Collectors.toList());
     }
 
