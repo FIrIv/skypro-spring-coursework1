@@ -1,10 +1,12 @@
 package pro.sky.skyprospringcoursework1.controller;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import pro.sky.skyprospringcoursework1.data.Employee;
+import pro.sky.skyprospringcoursework1.exception.BadRequestException;
 import pro.sky.skyprospringcoursework1.service.EmployeeService;
 
 import java.util.List;
@@ -22,6 +24,14 @@ public class EmployeeController {
     @GetMapping("/add")
     public Employee add (@RequestParam("firstName") String name, @RequestParam("lastName")  String surname,
                          @RequestParam("department") Integer department, @RequestParam("salary")  Integer salary) {
+        if (StringUtils.isEmpty(name)
+                || StringUtils.isEmpty(surname)
+                || !StringUtils.containsNone(name, "1234567890")
+                || !StringUtils.containsNone(surname, "1234567890")) {
+            throw new BadRequestException();
+        }
+        name = StringUtils.capitalize(StringUtils.lowerCase(name));
+        surname = StringUtils.capitalize(StringUtils.lowerCase(surname));
         return employeeService.addEmployee(name, surname, department, salary);
     }
 
