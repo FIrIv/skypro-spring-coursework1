@@ -12,6 +12,14 @@ public class Employee {
     private int salary;
 
     public Employee (String name, String surname) {
+        if (StringUtils.isEmpty(name)
+                || StringUtils.isEmpty(surname)
+                || !StringUtils.containsNone(name, "1234567890")
+                || !StringUtils.containsNone(surname, "1234567890")) {
+            throw new BadRequestException();
+        }
+        name = StringUtils.capitalize(StringUtils.lowerCase(name));
+        surname = StringUtils.capitalize(StringUtils.lowerCase(surname));
         this.name = name;
         this.surname = surname;
         this.department = 0;
@@ -19,6 +27,14 @@ public class Employee {
     }
 
     public Employee (String name, String surname, int department, int salary) {
+        if (StringUtils.isEmpty(name)
+                || StringUtils.isEmpty(surname)
+                || !StringUtils.containsNone(name, "1234567890")
+                || !StringUtils.containsNone(surname, "1234567890")) {
+            throw new BadRequestException();
+        }
+        name = StringUtils.capitalize(StringUtils.lowerCase(name));
+        surname = StringUtils.capitalize(StringUtils.lowerCase(surname));
         this.name = name;
         this.surname = surname;
         if (department >=1 && department <= 5) {

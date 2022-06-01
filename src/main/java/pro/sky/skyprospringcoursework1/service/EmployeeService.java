@@ -43,11 +43,11 @@ public class EmployeeService {
     public Employee addEmployee(String name, String surname, int department, int salary) {
         Employee temp = new Employee(name, surname, department, salary);
         if (employeeMap.containsValue(temp)) {
-            System.out.println(name + " " + surname + " уже есть в мапе. ");
+            System.out.println(temp.getName() + " " + temp.getSurname() + " уже есть в мапе. ");
             throw new BadRequestException();
         } else {
-            employeeMap.put(name+surname, temp);
-            System.out.println(name + " " + surname + " добавлен в мапу с кодом " + name+surname);
+            employeeMap.put(temp.getName()+temp.getSurname(), temp);
+            System.out.println(temp.getName() + " " + temp.getSurname() + " добавлен в мапу с кодом " + temp.getName()+temp.getSurname());
         }
         return temp;
     }
