@@ -5,7 +5,7 @@ import pro.sky.skyprospringcoursework1.exception.BadRequestException;
 
 import java.util.Objects;
 
-public class Employee {
+public class Employee implements Comparable<Employee> {
     private String name;
     private String surname;
     private int department; // значения отделов - от 1 до 5
@@ -85,5 +85,12 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(name, surname);
+    }
+
+    @Override
+    public int compareTo(Employee o) {
+        String id = this.name+this.surname;
+        String idO = o.getName() + o.getSurname();
+        return id.compareTo(idO);
     }
 }

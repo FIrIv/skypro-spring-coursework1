@@ -15,8 +15,7 @@ public class EmployeeServiceTest {
 
     private final EmployeeService out = new EmployeeService();
 
-/*
-        List<Employee> emps = new ArrayList<> ();
+/*       List<Employee> emps = new ArrayList<> ();
         emps.add(new Employee("Дмитрий","Амагаев", 1, 50_000));
         emps.add(new Employee("Елена","Белобородова", 2, 100_000));
         emps.add(new Employee("Андрей","Волков", 2, 75_000));
@@ -26,8 +25,7 @@ public class EmployeeServiceTest {
         emps.add(new Employee("Александр","Жанчипов", 3, 80_000));
         emps.add(new Employee("Александр","Зяблов", 4, 100_000));
         emps.add(new Employee("Сергей","Иванов", 1, 70_000));
-        emps.add(new Employee("Анна","Кукушина", 2, 50_000));
-*/
+        emps.add(new Employee("Анна","Кукушина", 2, 50_000)); */
 
     @Test
     public void addNewEmployee () {
