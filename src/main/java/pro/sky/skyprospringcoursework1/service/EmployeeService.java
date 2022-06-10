@@ -21,24 +21,7 @@ public class EmployeeService {
 
     public EmployeeService () {
         this.employeeMap = new HashMap<>();
-        employeeMap.put("ДмитрийАмагаев", new Employee("Дмитрий", "Амагаев",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("ЕленаБелобородова", new Employee("Елена","Белобородова",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("АндрейВолков", new Employee("Андрей","Волков",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("АндрейГубин", new Employee("Андрей","Губин",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("АртемДонской", new Employee("Артем","Донской",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("ЕкатеринаЕфимова", new Employee("Екатерина","Ефимова",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("АлександрЖанчипов", new Employee("Александр","Жанчипов",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("АлександрЗяблов", new Employee("Александр","Зяблов",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("СергейИванов", new Employee("Сергей","Иванов",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-        employeeMap.put("АннаКукушина", new Employee("Анна","Кукушина",generateFromToRandom(1,5),generateFromToRandom(50_000,100_000)));
-    }
-
-    public static int generateFromToRandom (int min, int max) {
-        java.util.Random random = new java.util.Random();
-        int elem;
-        elem = random.nextInt(max-min+1) + min;
-        return elem;
-    }
+            }
 
     public Employee addEmployee(String name, String surname, int department, int salary) {
         Employee temp = new Employee(name, surname, department, salary);
@@ -113,10 +96,11 @@ public class EmployeeService {
             Employee temp = employeeMap.get(key);
             employeeMap.get(key).setDepartment(newDep);
             System.out.println("Номер отдела изменен с " + temp.getDepartment() + " на " + newDep);
+            return employeeMap.get(key);
         } else {
             System.out.println("Сотрудник не найден! ");
+            return null;
         }
-        return employeeMap.get(key);
     }
 
     public Employee editEmployeeSalaryByKey (String key, int newSalary) {
@@ -124,9 +108,11 @@ public class EmployeeService {
             Employee temp = employeeMap.get(key);
             employeeMap.get(key).setSalary(newSalary);
             System.out.println("Зарплата сотрудника изменена с " + temp.getSalary() + " на " + newSalary + " руб.");
+            return employeeMap.get(key);
         } else {
             System.out.println("Сотрудник не найден! ");
+            return null;
         }
-        return employeeMap.get(key);
+
     }
 }

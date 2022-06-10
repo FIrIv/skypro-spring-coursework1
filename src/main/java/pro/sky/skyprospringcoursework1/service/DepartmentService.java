@@ -21,6 +21,7 @@ public class DepartmentService {
     public Map<Integer,List<Employee>> printAllEmployeesByDepartments () {
         return employeeService.getEmployeeMap().values()
                 .stream()
+                .sorted()
                 .collect(Collectors.groupingBy(e -> e.getDepartment()));
     }
 
